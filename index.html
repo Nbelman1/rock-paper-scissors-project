@@ -19,18 +19,6 @@
         //Make player input case-insensitive, return new variable
         let playerSelection = playerInput.toLowerCase();
 
-        //Create failsafe function that checks if player input is valid
-        function playerInputCheck () {
-            if (playerSelection === 'rock' || playerSelection === 'paper' || playerSelection === 'scissors') {
-                return playerSelection;
-            } else {
-                let playerSecondInput = prompt("Selection was invalid. Please choose again", "Rock, paper, or scissors?");
-                return playerSecondInput;
-            }
-        }
-        //TO DO: function keeps returning initial input. change to return new input
-        playerInputCheck(); 
-        //TO DO: when player enters wrong selection twice, game is broken. Maybe fix with a loop when you learn about those?
 
 
         //Create function that randomly returns Rock, Paper, or Scissors
@@ -52,8 +40,9 @@
         let computerSelection = getComputerSelection();
         
 
-        //Create function that plays a single round and returns string that declares winner
+        //Create function that plays a single round and returns string that declares winner. Add a point to the victor and keep count
         function playRound() {
+            getComputerSelection();
             if (playerSelection === computerSelection) {
                 return 'Great minds think alike. No points assigned.';
             } else if (playerSelection === 'rock' && computerSelection === 'scissors') {
@@ -77,9 +66,42 @@
         console.log(roundResult);
         
 
-        //Create function game, keeps score of playRound to a max of 5 rounds. Returns string that declares winner
+        //Create function that keeps track of score and round number, to a max of 5 rounds. Return string that declares winner
+        let roundNum = 0;
+        let playerScore = 0;
+        let computerScore = 0;
 
-        
+        function addPoints() {
+            if (playerSelection === 'rock' && computerSelection === 'scissors') {
+                ++playerScore;
+            } else if (playerSelection === 'paper' && computerSelection === 'rock') {
+                ++playerScore;
+            } else if (playerSelection === 'scissors' && computerSelection === 'paper') {
+                ++playerScore;
+            } else if (playerSelection === 'rock' && computerSelection === 'paper') {
+                ++computerScore;
+            } else if (playerSelection === 'paper' && computerSelection === 'scissors') {
+                ++computerScore;
+            } else if (playerSelection === 'scissors' && computerSelection === 'rock') {
+                ++computerScore;
+            }
+        }
+
+        function showScore() {
+            playRound();
+            addPoints();
+            ++roundNum;
+            let roundsLeft = 5 - roundNum;
+            console.log('Current score - Player, ' + playerScore + '. Computer, ' + computerScore + '.');
+            console.log(`That\'s ${roundNum} round(s) down, ${roundsLeft} to go.`);
+        }
+    
+        //round 1
+        showScore();
+
+        //TO DO: get showScore to return the points and score, then use those in future rounds
+
+
 
     </script>
 </body>
