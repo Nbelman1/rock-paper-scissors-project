@@ -9,100 +9,12 @@
         </style>
     </head>
 <body>
-    <script>
+    <script src="script.js">
+
+    </script>
         
 
-        //Create variable for player input. Player will input text via prompt function
-        let playerInput = prompt("Which will you choose?", "Rock, paper, or scissors");
-
-
-        //Make player input case-insensitive, return new variable
-        let playerSelection = playerInput.toLowerCase();
-
-
-
-        //Create function that randomly returns Rock, Paper, or Scissors
-        let computerInput = (Math.random() * 100);
-        console.log(computerInput);
-
-        function getComputerSelection() {
-            if (computerInput <= 33) {
-                return 'rock';
-            } else if (33 < computerInput && computerInput <= 66) {
-                return 'paper';
-            } else if (66 < computerInput && computerInput < 100) {
-                return 'scissors';
-            } else {
-                return 'error - you broke the game';
-            }
-        }
-
-        let computerSelection = getComputerSelection();
-        
-
-        //Create function that plays a single round and returns string that declares winner. Add a point to the victor and keep count
-        function playRound() {
-            getComputerSelection();
-            if (playerSelection === computerSelection) {
-                return 'Great minds think alike. No points assigned.';
-            } else if (playerSelection === 'rock' && computerSelection === 'scissors') {
-                return 'You did it. One point for the humans!';
-            } else if (playerSelection === 'paper' && computerSelection === 'rock') {
-                return 'Good job. One point for the humans!';
-            } else if (playerSelection === 'scissors' && computerSelection === 'paper') {
-                return 'Amazing. One point for the humans!';
-            } else if (playerSelection === 'rock' && computerSelection === 'paper') {
-                return 'You got got. One point for the computer!';
-            } else if (playerSelection === 'paper' && computerSelection === 'scissors') {
-                return 'Not this time. One point for the computer!';
-            } else if (playerSelection === 'scissors' && computerSelection === 'rock') {
-                return 'Better luck next time. One point for the computer!';
-            }
-        }
-
-        let roundResult = playRound();
-        console.log('Your choice:' + ' ' + playerSelection);
-        console.log('Computer\'s choice:' + ' ' + computerSelection);
-        console.log(roundResult);
-        
-
-        //Create function that keeps track of score and round number, to a max of 5 rounds. Return string that declares winner
-        let roundNum = 0;
-        let playerScore = 0;
-        let computerScore = 0;
-
-        function addPoints() {
-            if (playerSelection === 'rock' && computerSelection === 'scissors') {
-                ++playerScore;
-            } else if (playerSelection === 'paper' && computerSelection === 'rock') {
-                ++playerScore;
-            } else if (playerSelection === 'scissors' && computerSelection === 'paper') {
-                ++playerScore;
-            } else if (playerSelection === 'rock' && computerSelection === 'paper') {
-                ++computerScore;
-            } else if (playerSelection === 'paper' && computerSelection === 'scissors') {
-                ++computerScore;
-            } else if (playerSelection === 'scissors' && computerSelection === 'rock') {
-                ++computerScore;
-            }
-        }
-
-        function showScore() {
-            playRound();
-            addPoints();
-            ++roundNum;
-            let roundsLeft = 5 - roundNum;
-            console.log('Current score - Player, ' + playerScore + '. Computer, ' + computerScore + '.');
-            console.log(`That\'s ${roundNum} round(s) down, ${roundsLeft} to go.`);
-        }
     
-        //round 1
-        showScore();
-
-        //TO DO: get showScore to return the points and score, then use those in future rounds
-
-
-
     </script>
 </body>
 </html>
