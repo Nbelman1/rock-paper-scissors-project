@@ -1,93 +1,99 @@
 
 //function getComputerChoice
-//generate random number
-//convert random number to computer's choice
+//create computer choice at random from rock, paper, scissors
 
-let randomInt = Math.floor(Math.random() * (3 - 1 + 1) + 1);
+const options = ['rock', 'paper', 'scissors'];
 
 function getComputerChoice() {
-    if (randomInt === 1) {
-        return 'rock';
-    } else if (randomInt === 2) {
-        return 'paper';
-    } else if (randomInt === 3) {
-        return 'scissors';
-    } else {
-        return 'error: game is broken';
-    }
+    const result = options[Math.floor(Math.random() * options.length)];
+    return result;
 } 
 
-let computerSelection = getComputerChoice();
+//function checkWinner
+//outlines conditions to declare winner of single round 
+//passes through vars playerSelection and computerSelection
 
-//function getPlayerChoice
-//prompt player for their choice
-//make input case-insensitive
-
-function getPlayerChoice() {
-    let playerChoice = prompt("Choose your weapon: rock, paper, or scissors?", "Enter choice here");
-    return playerChoice.toLowerCase(); 
+function checkWinner(playerSelection, computerSelection) {
+    if (playerSelection == computerSelection) {
+        return 'tie';
+    } else if (
+        (playerSelection == 'rock' && computerSelection == 'scissors') ||
+        (playerSelection == 'paper' && computerSelection == 'rock') ||
+        (playerSelection == 'scissors' && computerSelection == 'paper') 
+    ){
+        return 'humans';
+    } else if (
+        (playerSelection == 'rock' && computerSelection == 'paper') ||
+        (playerSelection == 'paper' && computerSelection == 'scissors') ||
+        (playerSelection == 'scissors' && computerSelection == 'rock')
+    ){
+        return 'machines';
+    }
 }
-
-let playerSelection = getPlayerChoice();
 
 //function playRound
-//take two parameters, playerSelection and computerSelection
-//weigh two choices together
-//return string stating result
-let playerScore = 0;
-let computerScore = 0;
-let roundNumber = 0;
+//runs checkWinner function
+//prints user-friendly message to understand result of round
 
 function playRound(playerSelection, computerSelection) {
-    ++roundNumber;
-    if (playerSelection === computerSelection) {
-        return console.log('Tie game! No points this round.');
-    } else if (playerSelection === 'rock' && computerSelection === 'scissors') {
-        ++playerScore;
-        return console.log('Rock beats scissors! One point for humans.');
-    } else if (playerSelection === 'paper' && computerSelection === 'rock') {
-        ++playerScore;
-        return console.log('Paper beats rock! One point for humans.');
-    } else if (playerSelection === 'scissors' && computerSelection === 'paper') {
-        ++playerScore;
-        return console.log('Scissors beats paper! One point for humans.');
-    } else if (playerSelection === 'rock' && computerSelection === 'paper') {
-        ++computerScore;
-        return console.log('Paper beats rock! One point for the machines.'); 
-    } else if (playerSelection === 'paper' && computerSelection === 'scissors') {
-        ++computerScore;
-        return console.log('Scissors beats paper! One point for the machines.');
-    } else if (playerSelection === 'scissors' && computerSelection === 'rock') {
-        ++computerScore;
-        return console.log('Rock beats scissors! One point for the machines.');
+    const result = checkWinner(playerSelection, computerSelection);
+    if (result == 'tie') {
+        return 'Tie game! No points this round.';
+    } else if (result == 'humans') {
+        return `${playerSelection} beats ${computerSelection}, humans win this round!`;
+    } else if (result == 'machines') {
+        return `${computerSelection} beats ${playerSelection}, machines win this round.`;
     }
 }
 
-console.log('Player\'s choice: ' + playerSelection);
-console.log('Computer\'s choice: ' + computerSelection);
+//function getPlayerChoice
+//runs loop that prompts player for their input, 
+//keeps running until user inputs valid choice from options array
+//converts player input to lowercase
 
-//function playGame
-//run playRound function 5 times
-//keep score
-//declare winner with string
-
-
-function playGame() {
-    if (roundNumber < 5) {
-        playRound();
-    } else if (roundNumber > 5) {
-        if (playerScore > computerScore) {
-            return `Congrats, you\'ve saved the humans! Player won with ${playerScore} points.`;
-        } else if (computerScore > playerScore) {
-            return `Oh no, computers have taken over! Computer won with ${computerScore} points.`;
-        } else {
-            return 'Tie game! Humans and computers live together peacefully.';
+function getPlayerChoice() {
+    let validatedInput = false;
+    while (validatedInput == false) {
+        const choice = prompt('Choose your weapon: rock, paper, or scissors?', 'Type choice here.');
+        if (choice == null) {
+            continue;
         }
-    } else {
-        return 'error: game is broken.';
+        const choiceInLower = choice.toLowerCase();
+        if (options.includes(choiceInLower)) {
+            validatedInput = true;
+            return choiceInLower;
+        }
     }
 }
 
-console.log('Player\'s score: ' + playerScore);
-console.log('Computer\'s score: ' + computerScore);
-console.log('Round number: ' + roundNumber);
+//function game
+//keeps score of multiple rounds
+//if there haven't been five rounds, run getPlayerChoice and getComputerChoice
+//assign points based on winner
+//after five rounds, declare winner and print user-friendly message
+
+function game(){
+    let playerScore = 0;
+    let computerScore = 0;
+    for (let i = 0; i < 5; i++) {
+        const playerSelection = getPlayerChoice();
+        const computerSelection = getComputerChoice();
+        console.log(playRound(playerSelection, computerSelection));
+        console.log('-------');
+        if (checkWinner(playerSelection, computerSelection) == 'humans') {
+            playerScore++;
+        } else if (checkWinner(playerSelection, computerSelection) == 'machines') {
+            computerScore++;
+        }
+    }
+    console.log('GAME OVER.')
+    if (playerScore > computerScore) {
+        console.log('Victory for humans! Take that, cyborg punks.');
+    } else if (playerScore < computerScore) {
+        console.log('Machines have won, artificial intelligence has wiped out humanity.');
+    } else {
+        console.log('Tie game - humans and machines live in perfect harmony... for now.')
+    }
+}
+
+game();
