@@ -35,15 +35,14 @@ function checkWinner(playerSelection, computerSelection) {
 // runs checkWinner function
 // prints user-friendly message to understand result of round
 
-const playerScore = 0;
-const computerScore = 0;
-const roundCounter = 0;
+let playerScore = 0;
+let computerScore = 0;
+let roundCounter = 0;
 
 function playRound(playerSelection, computerSelection) {
     const result = checkWinner(playerSelection, computerSelection);
     const roundResults = document.querySelector("#roundResults");
     if (result == 'tie') {
-        // roundResults.classList.add("roundResults");  <-- not sure if needed
         roundResults.textContent = "Tie game! No points this round.";
         roundCounter++;
     } else if (result == 'humans') {
@@ -60,11 +59,11 @@ function playRound(playerSelection, computerSelection) {
 // displays playerScore, computerScore, and roundCounter
 
 function displayNumbers() {
-    const roundNumber = document.querySelector("#roundNumber");
+    let roundNumber = document.querySelector("#roundNumber");
     roundNumber.textContent = `Round number: ${roundCounter}`;
-    const humanScore = document.querySelector("#humanScore");
+    let humanScore = document.querySelector("#humanScore");
     humanScore.textContent = `Humans score: ${playerScore}`;
-    const machineScore = document.querySelector("#machineScore");
+    let machineScore = document.querySelector("#machineScore");
     machineScore.textContent = `Machines score: ${computerScore}`;
 }
 
@@ -88,7 +87,8 @@ function gameLogic() {
     }
 }
 
-// adding a user interface so player can select choice via button
+// adds a user interface so player can select choice via button
+// instead of interacting with console log
 
 const rockBtn = document.querySelector("#rock");
 const paperBtn = document.querySelector("#paper");
